@@ -31,13 +31,13 @@ namespace IgorMonteiroTheMainWords.Infra
 
         public IList<WordCounter> GetTopTenWordsInRssTopic(IList<RSSItem> posts)
         {
-            IList<string> words = new List<string>();
+            List<string> words = new List<string>();
 
             foreach (var item in posts)
             {
-                words = words.Union(item.Title.ReplaceAccents().RemoveSpecialChars().RemovePrepositions()).ToList();
-                words = words.Union(item.Description.ReplaceAccents().RemoveSpecialChars().RemovePrepositions()).ToList();
-                words = words.Union(item.Content.ReplaceAccents().RemoveSpecialChars().RemovePrepositions()).ToList();
+                words.AddRange(item.Title.ReplaceAccents().RemoveSpecialChars().RemovePrepositions());
+                words.AddRange(item.Description.ReplaceAccents().RemoveSpecialChars().RemovePrepositions());
+                words.AddRange(item.Content.ReplaceAccents().RemoveSpecialChars().RemovePrepositions());
             }
 
             return words.Select(c => c.ToLowerInvariant())

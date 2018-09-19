@@ -31,7 +31,10 @@ namespace System
                     "naquela", "naquelas", "nisto", "nisso", "naquilo", "noutro", "noutros", "noutra", "noutras", "noutrem", "pro", "pros", "pra", "pras",
                     "pelo", "pelos", "pela", "pelas", "dentre", "de", "em", "para", "per", "por", "que", "e", "com", "um", "uns", "uma", "umas", "as", "pode", "está" };
 
-            return text.Split(' ').Except(removedWords).ToList();
+            foreach (var item in removedWords)
+                text = text.Replace($" {item} ", " ");
+
+            return text.Split(' ').ToList();
         }
 
         public static string RemoveSpecialChars(this string accentText)

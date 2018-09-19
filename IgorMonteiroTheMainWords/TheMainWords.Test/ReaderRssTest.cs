@@ -1,6 +1,8 @@
 ﻿using System;
 using IgorMonteiroTheMainWords.Infra;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
+using IgorMonteiroTheMainWords.ValueObjects;
 
 namespace TheMainWords.Test
 {
@@ -47,7 +49,7 @@ namespace TheMainWords.Test
         public void RemoveSpecialCharsTest()
         {
             var accentText = "Teste %&*)(*&%&$%@#$%".RemoveSpecialChars();
-            Assert.AreEqual("Teste", accentText);
+            Assert.AreEqual("Teste", accentText.Trim());
         }
         [TestMethod]
         public void RemovePrepositionsTest()
@@ -62,6 +64,15 @@ namespace TheMainWords.Test
             var posts = reader.GetLastTenPosts();
             var mostTopics = reader.GetTopTenWordsInRssTopic(posts);
             Assert.AreNotEqual(0, mostTopics.Count);
+        }
+        [TestMethod]
+        public void CountGroupedWordsFromTextTest()
+        {
+            var reader = new RSSReader();
+            var words = "teste teste teste teste TESTE Teste teste abacaxi teste morango";
+            var wordsGrouped = reader.GetTopTenWordsInRssTopic(new List<RSSItem>() { new RSSItem() { Description = words, Title="abacaxi" , Content ="morango"} });
+            Assert.AreEqual(8, wordsGrouped[0].Quantity);
+            Assert.AreEqual("teste", wordsGrouped[0].Word);
         }
     }
 }
